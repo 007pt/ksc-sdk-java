@@ -123,41 +123,41 @@ public class KSCOpenAPISample {
 	@Test
 	public void runInstances(){
 		RunInstancesRequest request=new RunInstancesRequest();
-		request.setImageId("e22d048a-e0b8-465e-a692-d3358981eeff");
-		request.setInstanceType("E1.2B");
+		request.setImageId("IMG-6aeab94e-3816-4214-b53c-896eca47d730");
+		request.setInstanceType("N2.1A");
 
-		SystemDisk systemDisk = new SystemDisk();
-		systemDisk.setDiskType("Local_SSD");
-		systemDisk.setDiskSize(25);
-		request.setSystemDisk(systemDisk);
+//		SystemDisk systemDisk = new SystemDisk();
+//		systemDisk.setDiskType("Local_SSD");
+//		systemDisk.setDiskSize(25);
+//		request.setSystemDisk(systemDisk);
 
-		request.setDataDiskGb(25);
+//		request.setDataDiskGb(25);
 
 		request.setMaxCount(1);
 		request.setMinCount(1);
-		request.setSubnetId("afa859fc-65ea-410d-99f2-d686cf9da1d9");
-//		request.setInstancePassword("Qwer@1234");
-		request.setChargeType("HourlyInstantSettlement");
+		request.setSubnetId("d29d5597-1a1e-41fc-afd2-cfb4e104b181");
+		request.setInstancePassword("Test1234");
+		request.setChargeType("Daily");
 
 //		request.setLocalVolumeSnapshotId("969829eb-8945-474c-a14e-70a7f09ae552");
 
-		request.setChargeType("Spot");
+//		request.setChargeType("Spot");
 //		request.setSpotStrategy("SpotWithPriceLimit");
 //		request.setSpotPriceLimit(0.51334);
 
 		request.setPurchaseTime(1);
-		request.setSecurityGroupId("18523073-c6c0-44ba-9858-1c0f92cb453d");
-		request.setInstanceName("sdktest-1020");
-		request.setInstanceNameSuffix("1");
+//		request.setSecurityGroupId("2e23abc0-f2cc-42e0-9be5-38aec15faa8f");
+		request.setInstanceName("sdktest-0412-3");
+//		request.setInstanceNameSuffix("1");
 		request.setSriovNetSupport(false);
 		request.setProjectId(515L);
 //		request.setModelId("5ae8bc0f-cdf2-416d-ab60-f2a2a69ce695");
 		
-		DataDisk dataDisk = new DataDisk();
-		dataDisk.setType("EHDD");
-		dataDisk.setSize(10);
-		dataDisk.setDeleteWithInstance(true);
-		request.withDataDisks(dataDisk);
+//		DataDisk dataDisk = new DataDisk();
+//		dataDisk.setType("EHDD");
+//		dataDisk.setSize(10);
+//		dataDisk.setDeleteWithInstance(true);
+//		request.withDataDisks(dataDisk);
 
 //		request.setAddressBandWidth(1);
 //		request.setAddressChargeType("PrePaidByMonth");
@@ -165,14 +165,22 @@ public class KSCOpenAPISample {
 //		request.setAddressPurchaseTime(1);
 //		request.setAddressProjectId("515");
 
-		request.withKeyIds("c079a41f-beb4-4b73-a68c-69f25b9c8819");
+//		request.withKeyIds("c079a41f-beb4-4b73-a68c-69f25b9c8819");
 
-		request.setHostName("host-sdktest-1016");
-		request.setHostNameSuffix("1");
+//		request.setHostName("host-sdktest-1016");
+//		request.setHostNameSuffix("1");
 
-		request.setDataGuardId("42832fe7-8d68-473f-b113-f0912de1622d");
+//		request.setDataGuardId("42832fe7-8d68-473f-b113-f0912de1622d");
 
-		request.setAutoDeleteTime("2020-10-20 17:00:00");
+//		request.setAutoDeleteTime("2020-10-20 17:00:00");
+
+		NetworkInterface networkInterface = new NetworkInterface();
+		networkInterface.setSubnetId("d29d5597-1a1e-41fc-afd2-cfb4e104b181");
+//		networkInterface.setSecurityGroupId("2e23abc0-f2cc-42e0-9be5-38aec15faa8f");
+		networkInterface.withSecurityGroupIds("2e23abc0-f2cc-42e0-9be5-38aec15faa8f","ad14e55a-187a-41a5-b2e2-bc201e0e849f","264d2672-2b96-48aa-8fc1-3dbe078d8e44","160dfd22-88b0-4ccb-9d4a-1c331ccec0f5");
+		request.withNetworkInterfaces(networkInterface);
+
+		request.withSecurityGroupIds("2e23abc0-f2cc-42e0-9be5-38aec15faa8f","ad14e55a-187a-41a5-b2e2-bc201e0e849f","264d2672-2b96-48aa-8fc1-3dbe078d8e44","160dfd22-88b0-4ccb-9d4a-1c331ccec0f5");
 
 		AWSCredentials credentials = new BasicAWSCredentials(AWS_AK, AWS_SK);
 		KSCKECClient kec_client = new KSCKECClient(credentials);

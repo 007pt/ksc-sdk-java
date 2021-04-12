@@ -1,6 +1,7 @@
 package com.ksc.kec.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ksc.KscWebServiceRequest;
@@ -128,8 +129,8 @@ public class RunInstancesRequest extends KscWebServiceRequest
 	private Integer PurchaseTime;
 	/**
 	 * <p>
-	 * 实例绑定的安全组，目前仅支持绑定一个安全组
-	 * 是否可缺省: 否
+	 * 实例绑定的安全组，与SecurityGroupIds参数必须传一个，若传该参数，则SecurityGroupIds参数无效
+	 * 是否可缺省: 是
 	 * </p>
 	 */
 	private String SecurityGroupId;
@@ -275,6 +276,17 @@ public class RunInstancesRequest extends KscWebServiceRequest
 
 	/**
 	 * <p>
+	 * 随主机定时删除绑定的弹性IP
+	 * 类型：Boolean
+	 * 是否可缺省：是
+	 * 默认值：false
+	 * 注：包年包月的弹性IP只解绑，不删除；只有AutoDeleteTime有效值生效时，该参数才生效
+	 * </p>
+	 */
+	private Boolean AutoDeleteEip = false;
+
+	/**
+	 * <p>
 	 * 操作系统内部的计算机名
 	 * 类型：String
 	 * 有效值：字符长度为[2, 64]，不支持点号（.），每段允许字母（不限制大小写）、数字和短横线（-）组成
@@ -302,6 +314,22 @@ public class RunInstancesRequest extends KscWebServiceRequest
 	 * </p>
 	 */
 	private String UserData;
+
+	/**
+	 * <p>
+	 * 实例绑定的辅助网卡信息
+	 * 是否可缺省: 是，与SecurityGroupId参数必须传一个
+	 * </p>
+	 */
+	private List<NetworkInterface> NetworkInterfaces;
+
+	/**
+	 * <p>
+	 * 实例绑定的多个安全组id
+	 * 是否可缺省: 是，与SecurityGroupId参数必须传一个
+	 * </p>
+	 */
+	private List<String> SecurityGroupIds;
 
 
 	public Long getProjectId() {
@@ -576,6 +604,30 @@ public class RunInstancesRequest extends KscWebServiceRequest
 		SystemDisk = systemDisk;
 	}
 
+	public List<NetworkInterface> getNetworkInterfaces() {
+		return NetworkInterfaces;
+	}
+
+	public void setNetworkInterfaces(List<NetworkInterface> networkInterfaces) {
+		NetworkInterfaces = networkInterfaces;
+	}
+
+	public List<String> getSecurityGroupIds() {
+		return SecurityGroupIds;
+	}
+
+	public void setSecurityGroupIds(List<String> securityGroupIds) {
+		SecurityGroupIds = securityGroupIds;
+	}
+
+	public Boolean getAutoDeleteEip() {
+		return AutoDeleteEip;
+	}
+
+	public void setAutoDeleteEip(Boolean autoDeleteEip) {
+		AutoDeleteEip = autoDeleteEip;
+	}
+
 	public void withDataDisks(DataDisk... dataDisks) {
 		if (this.DataDisk == null) {
 			setDataDisk(new com.ksc.internal.SdkInternalList<DataDisk>());
@@ -591,6 +643,24 @@ public class RunInstancesRequest extends KscWebServiceRequest
 		}
 		for (String ele : keyIds) {
 			this.KeyIds.add(ele);
+		}
+	}
+
+	public void withNetworkInterfaces(NetworkInterface... networkInterfaces) {
+		if (this.NetworkInterfaces == null) {
+			setNetworkInterfaces(new com.ksc.internal.SdkInternalList<NetworkInterface>());
+		}
+		for (NetworkInterface ele : networkInterfaces) {
+			this.NetworkInterfaces.add(ele);
+		}
+	}
+
+	public void withSecurityGroupIds(String... securityGroupIds) {
+		if (this.SecurityGroupIds == null) {
+			setSecurityGroupIds(new com.ksc.internal.SdkInternalList<String>());
+		}
+		for (String ele : securityGroupIds) {
+			this.SecurityGroupIds.add(ele);
 		}
 	}
 }

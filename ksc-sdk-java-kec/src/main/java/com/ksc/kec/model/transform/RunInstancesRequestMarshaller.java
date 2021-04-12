@@ -6,6 +6,7 @@ import com.ksc.Request;
 import com.ksc.http.HttpMethodName;
 import com.ksc.kec.model.RunInstancesRequest;
 import com.ksc.transform.Marshaller;
+import com.ksc.util.CollectionUtils;
 import com.ksc.util.StringUtils;
 
 /**
@@ -141,6 +142,10 @@ public class RunInstancesRequestMarshaller implements
             request.addParameter("AutoDeleteTime",
                     StringUtils.fromString(runInstancesRequest.getAutoDeleteTime()));
         }
+        if (runInstancesRequest.getAutoDeleteEip() != null) {
+            request.addParameter("AutoDeleteEip",
+                    StringUtils.fromBoolean(runInstancesRequest.getAutoDeleteEip()));
+        }
         if (runInstancesRequest.getHostName() != null) {
             request.addParameter("HostName",
                     StringUtils.fromString(runInstancesRequest.getHostName()));
@@ -176,6 +181,32 @@ public class RunInstancesRequestMarshaller implements
                     StringUtils.fromString(runInstancesRequest.getSystemDisk().getDiskType()));
             request.addParameter("SystemDisk.DiskSize",
                     StringUtils.fromInteger(runInstancesRequest.getSystemDisk().getDiskSize()));
+        }
+
+        if (!CollectionUtils.isNullOrEmpty(runInstancesRequest.getNetworkInterfaces())) {
+            for (int i = 0; i < runInstancesRequest.getNetworkInterfaces().size(); i++) {
+                request.addParameter("NetworkInterface." + (i + 1) + ".SubnetId",
+                        StringUtils.fromString(runInstancesRequest.getNetworkInterfaces().get(i).getSubnetId()));
+                request.addParameter("NetworkInterface." + (i + 1) + ".SecurityGroupId",
+                        StringUtils.fromString(runInstancesRequest.getNetworkInterfaces().get(i).getSecurityGroupId()));
+                if (!StringUtils.isNullOrEmpty(runInstancesRequest.getNetworkInterfaces().get(i).getPrivateIpAddress())) {
+                    request.addParameter("NetworkInterface." + (i + 1) + ".PrivateIpAddress",
+                            StringUtils.fromString(runInstancesRequest.getNetworkInterfaces().get(i).getPrivateIpAddress()));
+                }
+                if (!CollectionUtils.isNullOrEmpty(runInstancesRequest.getNetworkInterfaces().get(i).getSecurityGroupIds())) {
+                    for (int j = 0; j < runInstancesRequest.getNetworkInterfaces().get(i).getSecurityGroupIds().size(); j++) {
+                        request.addParameter("NetworkInterface." + (i + 1) + ".SecurityGroupId." + (j + 1),
+                                StringUtils.fromString(runInstancesRequest.getNetworkInterfaces().get(i).getSecurityGroupIds().get(j)));
+                    }
+                }
+            }
+        }
+
+        if (!CollectionUtils.isNullOrEmpty(runInstancesRequest.getSecurityGroupIds())) {
+            for (int i = 0; i < runInstancesRequest.getSecurityGroupIds().size(); i++) {
+                request.addParameter("SecurityGroupId." + (i + 1),
+                        StringUtils.fromString(runInstancesRequest.getSecurityGroupIds().get(i)));
+            }
         }
 
         return request;
